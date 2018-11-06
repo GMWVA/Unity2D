@@ -9,6 +9,9 @@ public class Robot : MonoBehaviour {
     private int _hunger;
     [SerializeField]
     private int _happiness;
+    [SerializeField]
+    private string _name;
+
 
     private bool _serverTime;
     private int _clickCount;
@@ -16,6 +19,9 @@ public class Robot : MonoBehaviour {
 	void Start () {
         PlayerPrefs.SetString("then", "10/05/2018 12:54:00");
         UpdateStatus();
+        if (!PlayerPrefs.HasKey("Name"))
+            PlayerPrefs.SetString("Name", "Robot");
+        _name = PlayerPrefs.GetString("Name");
 	}
 
     private void Update()
@@ -74,9 +80,6 @@ public class Robot : MonoBehaviour {
         if (_happiness < 0)
             _happiness = 0;
 
-        //Debug.Log(GetTimeSpan().ToString());
-        //Debug.Log(GetTimeSpan().TotalHours);
-
         if(_serverTime)
             UpdateServer();
         else
@@ -117,6 +120,12 @@ public class Robot : MonoBehaviour {
     {
         get { return _happiness; }
         set { _happiness = value;  }
+    }
+
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; }
     }
 
     public void UpdateHappiness(int i)
