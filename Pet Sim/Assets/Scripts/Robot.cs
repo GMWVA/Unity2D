@@ -17,7 +17,7 @@ public class Robot : MonoBehaviour {
     private int _clickCount;
 
 	void Start () {
-        PlayerPrefs.SetString("then", "10/05/2018 12:54:00");
+        PlayerPrefs.SetString("then", "11/06/2018 12:00:00");
         UpdateStatus();
         if (!PlayerPrefs.HasKey("Name"))
             PlayerPrefs.SetString("Name", "Robot");
@@ -133,6 +133,14 @@ public class Robot : MonoBehaviour {
         Happiness += i;
         if (Happiness > 100)
             Happiness = 100;
+    }
+
+    public void SaveRobot()
+    {
+        if (!_serverTime)
+            UpdateDevice();
+        PlayerPrefs.SetInt("_hunger", _hunger);
+        PlayerPrefs.SetInt("_happiness", _happiness);
     }
 
 }
