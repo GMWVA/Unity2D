@@ -16,12 +16,19 @@ public class GameManager : MonoBehaviour {
     public GameObject robotPanel;
     public GameObject[] robotList;
 
+    public GameObject homePanel;
+    public Sprite[] homeTileSprites;
+    public GameObject[] homeTiles;
+
     private void Start()
     {
         if (!PlayerPrefs.HasKey("looks"))
             PlayerPrefs.SetInt("looks", 0);
+        CreateRobot(PlayerPrefs.GetInt("looks"));
 
-        CreateRobot(PlayerPrefs.GetInt("looks"));      
+        if (!PlayerPrefs.HasKey("tiles"))
+            PlayerPrefs.SetInt("tiles", 0);
+        ChangeTiles(PlayerPrefs.GetInt("tiles"));
     }
 
     void Update ()
@@ -51,7 +58,7 @@ public class GameManager : MonoBehaviour {
                 robotPanel.SetActive(!robotPanel.activeInHierarchy);
                 break;
             case (1):
-
+                homePanel.SetActive(!homePanel.activeInHierarchy);
                 break;
             case (2):
 
@@ -74,8 +81,16 @@ public class GameManager : MonoBehaviour {
 
         if (robotPanel.activeInHierarchy)
             robotPanel.SetActive(false);
-
         PlayerPrefs.SetInt("looks", i);
     }
 
+    public void ChangeTiles(int t)
+    {
+        for (int i = 0; i < homeTiles.Length; i++)
+            homeTiles[i].GetComponent<SpriteRenderer>().sprite = homeTileSprites[t];
+
+        if (homePanel.activeInHierarchy)
+            homePanel.SetActive(false);
+        PlayerPrefs.SetInt("tiles", t);
+    }
 }
