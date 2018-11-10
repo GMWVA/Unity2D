@@ -13,11 +13,21 @@ public class GameManager : MonoBehaviour {
     public GameObject nameText;
 
     public GameObject robot;
+    public GameObject robotPanel;
+    public GameObject[] robotList;
 
-	void Update () {
+    private void Start()
+    {
+        CreateRobot(0);      
+    }
+
+    void Update () {
         happinessText.GetComponent<Text>().text = "" + robot.GetComponent<Robot>().Happiness;
         hungerText.GetComponent<Text>().text = "" + robot.GetComponent<Robot>().Hunger;
         nameText.GetComponent<Text>().text = robot.GetComponent<Robot>().Name;
+
+        if (Input.GetKeyUp(KeyCode.Space))
+            CreateRobot(1);
     }
 
     public void TriggerNamePanel(bool b)
@@ -54,4 +64,12 @@ public class GameManager : MonoBehaviour {
                 break;
         }
     }
+
+    void CreateRobot(int i)
+    {
+        if (robot)
+            Destroy(robot);
+        robot = Instantiate(robotList[i], Vector3.zero, Quaternion.identity) as GameObject;
+    }
+
 }
