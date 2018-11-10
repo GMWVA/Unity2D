@@ -18,16 +18,17 @@ public class GameManager : MonoBehaviour {
 
     private void Start()
     {
-        CreateRobot(0);      
+        if (!PlayerPrefs.HasKey("looks"))
+            PlayerPrefs.SetInt("looks", 0);
+
+        CreateRobot(PlayerPrefs.GetInt("looks"));      
     }
 
-    void Update () {
+    void Update ()
+    {
         happinessText.GetComponent<Text>().text = "" + robot.GetComponent<Robot>().Happiness;
         hungerText.GetComponent<Text>().text = "" + robot.GetComponent<Robot>().Hunger;
         nameText.GetComponent<Text>().text = robot.GetComponent<Robot>().Name;
-
-        if (Input.GetKeyUp(KeyCode.Space))
-            CreateRobot(1);
     }
 
     public void TriggerNamePanel(bool b)
@@ -47,7 +48,7 @@ public class GameManager : MonoBehaviour {
         {
             case (0):
             default:
-
+                robotPanel.SetActive(!robotPanel.activeInHierarchy);
                 break;
             case (1):
 
@@ -65,11 +66,16 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void CreateRobot(int i)
+    public void CreateRobot(int i)
     {
         if (robot)
             Destroy(robot);
         robot = Instantiate(robotList[i], Vector3.zero, Quaternion.identity) as GameObject;
+
+        if (robotPanel.activeInHierarchy)
+            robotPanel.SetActive(false);
+
+        PlayerPrefs.SetInt("looks", i);
     }
 
 }
